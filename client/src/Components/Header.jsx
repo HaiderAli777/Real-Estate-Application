@@ -30,7 +30,7 @@ export default function Header() {
               About
             </li>
           </Link>
-          <Link to="sign-ip">
+          <Link to="sign-in">
             <li className="hidden sm:inline-block text-base text-black font-bold ">
               SignIn
             </li>
