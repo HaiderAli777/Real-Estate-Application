@@ -75,7 +75,14 @@ export default function SignIn() {
         <div>
           <span className="mr-2 font-bold">Do not have any account?</span>
           <Link to="/sign-up">
-            <span className="text-blue-500 underline font-bold">Sign In</span>
+            <span
+              onClick={() => {
+                dispatch(setEror(""));
+              }}
+              className="text-blue-500 underline font-bold"
+            >
+              Sign Up
+            </span>
           </Link>
         </div>
         <div className="text-red-600 font-bold">{error != "" && error}</div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setloading, setEror } from "../Redux/Slice/UserSlice";
+import { setloading, setEror, removeData } from "../Redux/Slice/UserSlice";
 export default function SignUp() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
@@ -22,7 +22,7 @@ export default function SignUp() {
     e.preventDefault();
     try {
       dispatch(setloading());
-
+      dispatch(setEror(""));
       const res = await fetch("/api/user/sign-up", {
         method: "POST",
         headers: {
@@ -37,6 +37,7 @@ export default function SignUp() {
       }
       dispatch(setloading());
       dispatch(setEror(""));
+      dispatch(removeData({}));
       navigate("/sign-in");
     } catch (err) {
       dispatch(setloading());
@@ -80,7 +81,14 @@ export default function SignUp() {
         <div>
           <span className="mr-2 font-bold">Do you have any account?</span>
           <Link to="/sign-in">
-            <span className="text-blue-500 underline font-bold">Sign In</span>
+            <span
+              onClick={() => {
+                dispatch(setEror(""));
+              }}
+              className="text-blue-500 underline font-bold"
+            >
+              Sign In
+            </span>
           </Link>
         </div>
         <div className="text-red-600 font-bold">{error != "" && error}</div>
