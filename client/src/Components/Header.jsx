@@ -10,7 +10,7 @@ export default function Header() {
         <Link to="home">
           <h1 className="mt-1 mb-1">
             <span className="text-slate-700 text-sm sm:text-xl font-bold">
-              Aide
+              Hadi
             </span>
             <span className="text-slate-900 text-sm sm:text-xl font-bold">
               State

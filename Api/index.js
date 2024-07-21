@@ -5,7 +5,9 @@ require("dotenv").config();
 const UserRouter = require("./Route/Route.User.js");
 
 mongoose
-  .connect(process.env.MONGO)
+  .connect(
+    "mongodb+srv://ha7325897:KaGVX7BsVhre0uzT@cluster0.3lmtoms.mongodb.net/"
+  )
   .then(() => {
     console.log("Connected");
   })
@@ -17,13 +19,15 @@ app.listen(3000, () => {
 });
 
 app.use(express.json());
-app.use("/Api/User", UserRouter);
+app.use("/api/user", UserRouter);
 
 app.use((err, req, res, next) => {
+  console.log("in err mid");
+  console.log(err);
   const statuscode = err.statusCode || 500;
   const message = err.message || "Internal System Errors";
   return res.status(statuscode).json({
     message,
-    status: "failure",
+    status: "fail",
   });
 });

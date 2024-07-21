@@ -1,9 +1,11 @@
 import React from "react";
-
+import { useSelector } from "react-redux";
 export default function Home() {
+  const data = useSelector((state) => state.user.userdata);
+  console.log(data);
   return (
     <div>
-      <h1>Hello</h1>
+      <h1>hello</h1>
     </div>
   );
 }
