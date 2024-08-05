@@ -46,6 +46,9 @@ export default function SignIn() {
       dispatch(setEror(err.message));
     }
   };
+  const googleHandler = async (e) => {
+    // e.preventDefault();
+  };
   return (
     <div className="mt-10">
       <h1 className="font-bold  text-center mt-5 mb-10 text-6xl">Sign-In</h1>
@@ -71,6 +74,12 @@ export default function SignIn() {
           type="submit"
           value={loading ? "Loading..." : "Submit"}
           disabled={loading}
+          onClick={googleHandler}
+        ></input>
+        <input
+          className="my-1 text-white bg-red-800 shadow-lg p-3 w-[25rem] focus:outline-none rounded-md"
+          type="submit"
+          value={loading ? "Loading..." : "Continue With Google"}
         ></input>
         <div>
           <span className="mr-2 font-bold">Do not have any account?</span>

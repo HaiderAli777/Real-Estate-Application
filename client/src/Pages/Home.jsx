@@ -5,7 +5,7 @@ export default function Home() {
   console.log(data);
   return (
     <div>
-      <h1>hello</h1>
+      <h1>HOME</h1>
     </div>
   );
 }

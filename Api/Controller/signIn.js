@@ -23,7 +23,12 @@ const signUp = async (req, res, next) => {
     const { password: pwd, ...rbody } = obj;
 
     res
-      .cookie("token", token, { httpOnly: true })
+      .cookie(
+        "token",
+        token,
+        { maxAge: 1000 * 60 * 60 * 24 },
+        { httpOnly: true }
+      )
       .status(200)
       .json({ succes: "pass", body: rbody });
   } catch (err) {
