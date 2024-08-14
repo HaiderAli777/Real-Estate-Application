@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setloading, setEror, insertingData } from "../Redux/Slice/UserSlice";
+import { app } from "../GoogleAuth/firebase";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 export default function SignIn() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
@@ -47,7 +49,24 @@ export default function SignIn() {
     }
   };
   const googleHandler = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+
+      const obj = {
+        username: result.user.displayName,
+        gmail: result.user.email,
+        image: result.user.photoURL,
+      };
+      dispatch(insertingData(obj));
+      dispatch(setEror(""));
+      console.log(obj);
+    } catch (err) {
+      dispatch(setEror("U closed the Google popUp"));
+      console.log("Hey error from it");
+    }
   };
   return (
     <div className="mt-10">
@@ -74,12 +93,12 @@ export default function SignIn() {
           type="submit"
           value={loading ? "Loading..." : "Submit"}
           disabled={loading}
-          onClick={googleHandler}
         ></input>
         <input
           className="my-1 text-white bg-red-800 shadow-lg p-3 w-[25rem] focus:outline-none rounded-md"
-          type="submit"
-          value={loading ? "Loading..." : "Continue With Google"}
+          type="button"
+          value={"Continue With Google"}
+          onClick={googleHandler}
         ></input>
         <div>
           <span className="mr-2 font-bold">Do not have any account?</span>
@@ -94,7 +113,9 @@ export default function SignIn() {
             </span>
           </Link>
         </div>
-        <div className="text-red-600 font-bold">{error != "" && error}</div>
+        <div className="text-red-600 font-bold">
+          {error.length > 0 && error}
+        </div>
       </form>
     </div>
   );
