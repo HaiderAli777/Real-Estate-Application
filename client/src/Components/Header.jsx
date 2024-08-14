@@ -29,15 +29,15 @@ export default function Header() {
           ></input>
           <FaSearch className="font-bold "></FaSearch>
         </form>
-        <ul className="flex gap-5">
+        <ul className="flex gap-5 items-center">
           <Link to="home">
             <li className="hidden sm:inline-block text-base text-black font-bold ">
               Home
             </li>
           </Link>
-          <Link to="about">
+          <Link to="MyListing">
             <li className=" hidden sm:inline-block text-base text-black font-bold ">
-              About
+              Listing
             </li>
           </Link>
           {key.length == 0 && (
@@ -54,9 +54,7 @@ export default function Header() {
           </Link> */}
           {key.length > 0 && (
             <Link to="profile">
-              <li className="hidden sm:inline-block text-base text-black font-bold ">
-                Profile
-              </li>
+              <img className="w-10 rounded-full" src={data.image}></img>
             </Link>
           )}
         </ul>

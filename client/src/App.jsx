@@ -1,5 +1,5 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import About from "./Pages/About";
+import Listing from "./Pages/MyListing";
 import Home from "./Pages/Home";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
@@ -30,7 +30,13 @@ function App() {
           {keys.length == 0 && (
             <Route path="sign-up" element={<SignUp />}></Route>
           )}
-          <Route path="about" element={<About />}></Route>
+          {keys.length == 0 && (
+            <Route path="sign-in" element={<SignIn />}></Route>
+          )}
+          {keys.length > 0 && (
+            <Route path="MyListing" element={<Listing />}></Route>
+          )}
+
           {keys.length > 0 && (
             <Route path="profile" element={<Profile />}></Route>
           )}

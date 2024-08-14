@@ -9,7 +9,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "../GoogleAuth/firebase";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 export default function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,7 +17,9 @@ export default function Profile() {
   const [password, setPassword] = useState("");
   const imageref = useRef(null);
   const [filename, setfilename] = useState("");
+  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [imgState, setimgState] = useState("");
   const data = useSelector((state) => state.user.userdata);
   console.log(data);
   const signout = async (e) => {
@@ -73,7 +75,7 @@ export default function Profile() {
       const storageRef = ref(storage, fileName);
 
       const uploadTask = uploadBytesResumable(storageRef, filename);
-
+      setimgState("loading...");
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -89,7 +91,40 @@ export default function Profile() {
             console.log("File available at", downloadURL);
             //setfilename(downloadURL);
             console.log(fileName);
-            dispatch(insertingData({ ...data, image: downloadURL }));
+            const call = async () => {
+              try {
+                const res = await fetch(`/api/user/updateimage/${data._id}`, {
+                  method: "PUT",
+                  headers: {
+                    "content-type": "application/json",
+                  },
+                  body: JSON.stringify({ downloadURL }),
+                });
+                const data1 = await res.json();
+                dispatch(
+                  insertingData({
+                    ...data,
+                    image: downloadURL,
+                  })
+                );
+                console.log(data1);
+
+                if (data1.status == "fail") {
+                  throw new Error("Image Not Uploaded");
+                }
+                setimgState("Uploaded Successfully");
+                setTimeout(() => {
+                  setimgState("");
+                }, 1000);
+              } catch (err) {
+                console.log(err);
+                setimgState(err.message);
+                setTimeout(() => {
+                  setimgState("");
+                }, 1000);
+              }
+            };
+            call();
           });
         }
       );
@@ -117,6 +152,9 @@ export default function Profile() {
           onClick={() => imageref.current.click()}
           className="rounded-full w-[6rem] mb-3"
         ></img>
+        {imgState.length > 0 && (
+          <span className="text-blue-900 font-bold">{imgState}</span>
+        )}
         <input
           type="text"
           value={data.username}
@@ -153,7 +191,9 @@ export default function Profile() {
         >
           Reset Password
         </button>
-
+        {success.length > 0 && (
+          <span className="text-blue-700 font-semibold">{success}</span>
+        )}
         {openBlock && (
           <input
             type="password"
@@ -167,9 +207,33 @@ export default function Profile() {
         )}
         {openBlock && (
           <button
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
-              setBlock(false);
+              try {
+                const response = await fetch(
+                  `/api/user/updatepassword/${data._id}`,
+                  {
+                    method: "PUT",
+                    headers: {
+                      "content-type": "application/json",
+                    },
+                    body: JSON.stringify({ password }),
+                  }
+                );
+                const data1 = await response.json();
+                console.log(data1);
+                if (data.status == "fail") {
+                  throw new Error("Failed to Update");
+                }
+                setSuccess(data1.message);
+                setTimeout(() => {
+                  setSuccess("");
+                }, 1000);
+                console.log(data1);
+                setBlock(false);
+              } catch (err) {
+                console.log("update", err);
+              }
             }}
             className="bg-red-800 text-white py-3 px-5 rounded-xl mt-3"
           >
