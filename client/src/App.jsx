@@ -23,7 +23,6 @@ function App() {
       <BrowserRouter>
         <Header></Header>
         <Routes>
-          <Route path="home" element={<Home />}></Route>
           {keys.length == 0 && (
             <Route path="sign-in" element={<SignIn />}></Route>
           )}
@@ -34,7 +33,7 @@ function App() {
             <Route path="sign-in" element={<SignIn />}></Route>
           )}
           {keys.length > 0 && (
-            <Route path="MyListing" element={<Listing />}></Route>
+            <Route path="listing" element={<Listing />}></Route>
           )}
 
           {keys.length > 0 && (
@@ -43,6 +42,7 @@ function App() {
           {keys.length > 0 && (
             <Route path="create-Listing" element={<CreateListing />}></Route>
           )}
+          <Route path="home" element={<Home />}></Route>
           <Route path="*" element={<Navigate />}></Route>
         </Routes>
       </BrowserRouter>

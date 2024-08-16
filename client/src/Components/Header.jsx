@@ -35,7 +35,7 @@ export default function Header() {
               Home
             </li>
           </Link>
-          <Link to="MyListing">
+          <Link to="listing">
             <li className=" hidden sm:inline-block text-base text-black font-bold ">
               Listing
             </li>
@@ -54,7 +54,10 @@ export default function Header() {
           </Link> */}
           {key.length > 0 && (
             <Link to="profile">
-              <img className="w-10 rounded-full" src={data.image}></img>
+              <img
+                className="w-10 rounded-full hidden sm:inline-block"
+                src={data.image}
+              ></img>
             </Link>
           )}
         </ul>
