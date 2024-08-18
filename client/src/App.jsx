@@ -10,6 +10,9 @@ import Cookies from "js-cookie";
 import CreateListing from "./Pages/CreateListing";
 import { useDispatch, useSelector } from "react-redux";
 import { insertingData, setloading } from "./Redux/Slice/UserSlice";
+import Editlisting from "./Pages/Editlisting";
+import DisplayListing from "./Pages/DisplayListing";
+
 function App() {
   {
     /*const dispatch = useDispatch();
@@ -26,6 +29,7 @@ function App() {
           {keys.length == 0 && (
             <Route path="sign-in" element={<SignIn />}></Route>
           )}
+
           {keys.length == 0 && (
             <Route path="sign-up" element={<SignUp />}></Route>
           )}
@@ -35,12 +39,20 @@ function App() {
           {keys.length > 0 && (
             <Route path="listing" element={<Listing />}></Route>
           )}
-
+          {keys.length > 0 && (
+            <Route path="edit-listing/:id" element={<Editlisting />}></Route>
+          )}
           {keys.length > 0 && (
             <Route path="profile" element={<Profile />}></Route>
           )}
           {keys.length > 0 && (
             <Route path="create-Listing" element={<CreateListing />}></Route>
+          )}
+          {keys.length > 0 && (
+            <Route
+              path="display-listing/:id"
+              element={<DisplayListing />}
+            ></Route>
           )}
           <Route path="home" element={<Home />}></Route>
           <Route path="*" element={<Navigate />}></Route>

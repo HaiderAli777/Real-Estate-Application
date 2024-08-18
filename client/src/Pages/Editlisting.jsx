@@ -5,13 +5,15 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import { useParams } from "react-router-dom";
 import { app } from "../GoogleAuth/firebase";
+
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-export default function CreateListing() {
+export default function Editlisting() {
   const navigate = useNavigate();
   const [filename, setfilename] = useState(0);
-
+  const { id } = useParams();
   const data = useSelector((state) => state.user.userdata);
   const [formerr, seterr] = useState({
     imagelimit: "",
@@ -24,12 +26,12 @@ export default function CreateListing() {
     name: "",
     description: "",
     address: "",
-    type: "sell",
+    type: "",
     parkingssport: false,
     furnished: false,
     offer: false,
-    bath: 1,
-    bed: 1,
+    bath: 0,
+    bed: 0,
     regularprize: 0,
     discountprize: 0,
   });
@@ -45,8 +47,8 @@ export default function CreateListing() {
     };
     console.log(obj);
     try {
-      const res = await fetch("/api/create-listing", {
-        method: "POST",
+      const res = await fetch(`/api/update-listing/${id}`, {
+        method: "PUT",
         headers: {
           "content-type": "application/json",
         },
@@ -119,9 +121,35 @@ export default function CreateListing() {
         SetCurrentImages([]);
       }
     };
-
     uploadImages();
   }, [currentImages]);
+  useEffect(() => {
+    const getlisting = async () => {
+      try {
+        const res = await fetch(`/api/get-onelisting/${id}`, {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+          },
+        });
+        const data1 = await res.json();
+        if (data1.status == "fail") {
+          throw new Error("Cannot Get The this id Listing");
+        }
+
+        console.log(data1.data);
+        const { images, userRef, _id, ...remdata } = data1.data;
+        console.log("again");
+        console.log(remdata);
+        setformdata(remdata);
+        setdownURL(images);
+        setfilename(images.length);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    getlisting();
+  }, []);
   const formHandler = (e) => {
     if (e.target.id == "sell" || e.target.id == "rent") {
       console.log(e.target.id);
@@ -399,7 +427,7 @@ export default function CreateListing() {
                 formerr.creationErr
               }
             >
-              Create A Listing
+              Update A Listing
             </button>
           </div>
         </div>

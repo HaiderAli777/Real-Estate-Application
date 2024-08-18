@@ -150,7 +150,7 @@ export default function Profile() {
             "https://tse2.mm.bing.net/th?id=OIP.UPZ1-G8gpc5FkNIC2RCWSgHaFj&pid=Api&P=0&h=220"
           }
           onClick={() => imageref.current.click()}
-          className="rounded-full w-[6rem] mb-3"
+          className="rounded-full w-[6rem] h-[6rem] object-cover mb-3 "
         ></img>
         {imgState.length > 0 && (
           <span className="text-blue-900 font-bold">{imgState}</span>
@@ -167,27 +167,26 @@ export default function Profile() {
           readOnly
           value={data.gmail}
         ></input>
-        <div className="flex flex-row gap-20">
-          <button
-            onClick={signout}
-            className="bg-gray-800 text-white p-3 rounded-xl mt-3"
-          >
-            SignOut
-          </button>
-          <button
-            onClick={deleteAcc}
-            className="bg-gray-800 text-white p-3 rounded-xl mt-3"
-          >
-            Delete
-          </button>
-        </div>
+
         {error.length > 0 && error}
+        <button
+          onClick={signout}
+          className="bg-blue-700 text-white p-3 px-[5.5rem] rounded-xl mt-3"
+        >
+          SignOut
+        </button>
+        <button
+          onClick={deleteAcc}
+          className=" text-white p-3 bg-red-700  px-[6rem] rounded-xl mt-3"
+        >
+          Delete
+        </button>
         <button
           onClick={(e) => {
             e.preventDefault();
             setBlock(true);
           }}
-          className="bg-gray-800 text-white p-3 rounded-xl mt-3"
+          className="bg-gray-800 text-white p-3 px-[4rem] rounded-xl mt-3"
         >
           Reset Password
         </button>

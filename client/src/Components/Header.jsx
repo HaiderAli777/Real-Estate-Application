@@ -55,7 +55,7 @@ export default function Header() {
           {key.length > 0 && (
             <Link to="profile">
               <img
-                className="w-10 rounded-full hidden sm:inline-block"
+                className="w-10 rounded-full h-10 object-cover hidden sm:inline-block"
                 src={data.image}
               ></img>
             </Link>
