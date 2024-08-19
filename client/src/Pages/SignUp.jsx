@@ -45,7 +45,7 @@ export default function SignUp() {
     }
   };
   return (
-    <div className="mt-10">
+    <div className="mt-16">
       <h1 className="font-bold  text-center mt-5 mb-10 text-6xl">Sign-Up</h1>
       <form className="flex flex-col w-fit mx-auto" onSubmit={submitHandler}>
         <input

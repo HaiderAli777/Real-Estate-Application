@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { insertingData, setloading } from "./Redux/Slice/UserSlice";
 import Editlisting from "./Pages/Editlisting";
 import DisplayListing from "./Pages/DisplayListing";
+import About from "./Pages/About";
+import Search from "./Pages/Search";
 
 function App() {
   {
@@ -55,6 +57,8 @@ function App() {
             ></Route>
           )}
           <Route path="home" element={<Home />}></Route>
+          <Route path="about" element={<About />}></Route>
+          <Route path="search" element={<Search />}></Route>
           <Route path="*" element={<Navigate />}></Route>
         </Routes>
       </BrowserRouter>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css/navigation";
@@ -12,6 +12,9 @@ export default function DisplayListing() {
   const [loder, setloder] = useState(false);
   const [Listing, setlisting] = useState({});
   const [images, setimages] = useState([]);
+  const [body, setbody] = useState("");
+  const [pop, setpop] = useState(false);
+  const [lanlord, setlandlordgmail] = useState("");
   useEffect(() => {
     const getlisting = async () => {
       setloder(true);
@@ -28,8 +31,9 @@ export default function DisplayListing() {
         }
         setlisting(data1.data);
         setimages(data1.data.images);
-        console.log(data1.data.images);
-        console.log(Listing.images);
+        console.log(data1.data.userRef);
+        console.log(Listing);
+
         setloder(false);
       } catch (err) {
         setloder(false);
@@ -38,6 +42,26 @@ export default function DisplayListing() {
     };
     getlisting();
   }, []);
+  const getuser = async () => {
+    try {
+      const res = await fetch(`/api/user/getuser/${Listing.userRef}`, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data1 = await res.json();
+      if (data1.status == "fail") {
+        throw new Error("Cannot Get the User ");
+      }
+      console.log(data1.body.gmail);
+
+      setlandlordgmail(data1.body.gmail);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
       <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
@@ -130,9 +154,45 @@ export default function DisplayListing() {
             </div>
           </div>
           <div className="pt-9">
-            <button className="w-full bg-slate-700 py-5 font-bold text-white rounded-md text-2xl">
-              Contact LandLord
-            </button>
+            {pop && (
+              <div>
+                <p className="my-1 font-bold text-xl">{`Contact for ${Listing.type} (- ${Listing.name}) `}</p>
+                <textarea
+                  onChange={(e) => setbody(e.target.value)}
+                  rows={4}
+                  className="p-2 w-full rounded-md shadow-md outline-none my-3 bg-slate-100"
+                ></textarea>
+                <Link
+                  to={`mailto:${lanlord}?subject=${encodeURIComponent(
+                    `${Listing.type} for ${Listing.name}`
+                  )}&body=${encodeURIComponent(body)}`}
+                >
+                  <button
+                    disabled={body.length <= 0}
+                    onClick={() => {
+                      setbody("");
+                      setTimeout(() => {
+                        setpop(false);
+                      }, 2000);
+                    }}
+                    className="w-full disabled:bg-slate-300 bg-slate-700 py-5 font-bold text-white rounded-md text-2xl"
+                  >
+                    Mail To LanLord
+                  </button>
+                </Link>
+              </div>
+            )}
+            {!pop && (
+              <button
+                onClick={async (e) => {
+                  await getuser();
+                  setpop(true);
+                }}
+                className="w-full disabled:bg-slate-400 bg-slate-700 py-5 font-bold text-white rounded-md text-2xl"
+              >
+                Contact LandLord
+              </button>
+            )}
           </div>
         </div>
       ) : (

@@ -35,9 +35,9 @@ export default function Header() {
               Home
             </li>
           </Link>
-          <Link to="listing">
-            <li className=" hidden sm:inline-block text-base text-black font-bold ">
-              Listing
+          <Link to="about">
+            <li className="hidden sm:inline-block text-base text-black font-bold">
+              About
             </li>
           </Link>
           {key.length == 0 && (
@@ -47,11 +47,21 @@ export default function Header() {
               </li>
             </Link>
           )}
-          {/* <Link to="sign-up">
-           <li className="hidden sm:inline-block text-base text-black font-bold">
-              SignUp
-            </li>
-          </Link> */}
+          {/*key.length == 0 && (
+            <Link to="sign-up">
+              <li className="hidden sm:inline-block text-base text-black font-bold">
+                SignUp
+              </li>
+            </Link>
+          )*/}
+
+          {key.length > 0 && (
+            <Link to="listing">
+              <li className=" hidden sm:inline-block text-base text-black font-bold ">
+                Listing
+              </li>
+            </Link>
+          )}
           {key.length > 0 && (
             <Link to="profile">
               <img

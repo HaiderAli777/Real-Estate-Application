@@ -33,15 +33,21 @@ export default function Profile() {
         },
       });
       const data = await response.json();
+      console.log(data);
       if (data.status == "fail") {
-        throw new Error("Failed SignOut! Try Again");
+        throw new Error(data.message);
       }
       console.log(data);
       dispatch(insertingData({}));
       navigate("/sign-in");
     } catch (err) {
       console.log("signout", err);
-      setError(err.message);
+      if (err.message.includes("Token")) {
+        setError(err.message);
+        dispatch(insertingData({}));
+      } else {
+        setError(err.message);
+      }
     }
   };
   const deleteAcc = async (e) => {
@@ -57,14 +63,19 @@ export default function Profile() {
       });
       const data1 = await response.json();
       if (data1.status == "fail") {
-        throw new Error("Account Not Deleted! Try Again");
+        throw new Error(data1.message);
       }
       console.log(data1);
       dispatch(insertingData({}));
       navigate("/sign-in");
     } catch (err) {
-      console.log("signout", err);
-      setError(err.message);
+      console.log("signout", err.message);
+      if (err.message.includes("Token")) {
+        setError(err.message);
+        dispatch(insertingData({}));
+      } else {
+        setError(err.message);
+      }
     }
   };
   console.log(data);
@@ -131,7 +142,7 @@ export default function Profile() {
     }
   }, [filename]);
   return (
-    <div className="">
+    <div className="mb-10">
       <h1 className="text-center py-[2rem] text-5xl font-bold">Profile</h1>
       <form className="flex flex-col items-center gap-1">
         <input
@@ -196,6 +207,7 @@ export default function Profile() {
         {openBlock && (
           <input
             type="password"
+            required
             className="px-[1rem] mt-3 w-[15rem] py-3 rounded-md outline-none"
             placeholder="Enter The new Password"
             onChange={(e) => {
