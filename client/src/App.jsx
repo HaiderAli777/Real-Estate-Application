@@ -58,7 +58,7 @@ function App() {
           )}
           <Route path="home" element={<Home />}></Route>
           <Route path="about" element={<About />}></Route>
-          <Route path="search" element={<Search />}></Route>
+          <Route path="search/?" element={<Search />}></Route>
           <Route path="*" element={<Navigate />}></Route>
         </Routes>
       </BrowserRouter>

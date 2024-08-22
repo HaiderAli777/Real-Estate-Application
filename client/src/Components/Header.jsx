@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const data = useSelector((state) => state.user.userdata);
+  const [dis, setdis] = useState(true);
+  const [name, setname] = useState("");
   const key = Object.keys(data);
+  const navigate = useNavigate();
 
   console.log(key);
   return (
@@ -22,14 +25,18 @@ export default function Header() {
             </span>
           </h1>
         </Link>
-        <form className="bg-slate-100 p-3 rounded-md flex items-center">
-          <input
-            className="bg-transparent focus:outline-none w-[18rem] font-medium"
-            placeholder="Search...."
-          ></input>
-          <FaSearch className="font-bold "></FaSearch>
-        </form>
+
         <ul className="flex gap-5 items-center">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/search");
+            }}
+            type="submit"
+          >
+            <FaSearch className="font-bold "></FaSearch>
+          </button>
+
           <Link to="home">
             <li className="hidden sm:inline-block text-base text-black font-bold ">
               Home

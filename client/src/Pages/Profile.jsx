@@ -218,6 +218,7 @@ export default function Profile() {
         )}
         {openBlock && (
           <button
+            disabled={password.length < 3}
             onClick={async (e) => {
               e.preventDefault();
               try {
@@ -246,7 +247,7 @@ export default function Profile() {
                 console.log("update", err);
               }
             }}
-            className="bg-red-800 text-white py-3 px-5 rounded-xl mt-3"
+            className="bg-red-800 disabled:bg-slate-300  text-white py-3 px-5 rounded-xl mt-3"
           >
             Submit
           </button>

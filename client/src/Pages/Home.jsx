@@ -46,13 +46,15 @@ export default function Home() {
           Haider Ali specializes in helping buyers and sellers navigate the real
           estate market according to their specific desires and requirements.
         </p>
-        <Link to="/sign-up">
-          <p className="text-blue-800 font-bold">
-            Sign-in to start your journey
-          </p>
-        </Link>
+        {data.userdata && (
+          <Link to="/sign-up">
+            <p className="text-blue-800 font-bold">
+              Sign-in to start your journey
+            </p>
+          </Link>
+        )}
       </div>
-      {!loder && (
+      {!loder && listing.length > 0 ? (
         <div className="mt-20">
           <div>
             <Swiper
@@ -78,7 +80,7 @@ export default function Home() {
               </h1>
               {!loder && (
                 <div>
-                  <Link to="/search">
+                  <Link to="/search/?">
                     <h1 className="pb-2 text-blue-600 font-bold">
                       click to show more...
                     </h1>
@@ -88,7 +90,7 @@ export default function Home() {
                       if (data.offer == true) {
                         return (
                           <Link to={`/display-listing/${data._id}`}>
-                            <div className="rounded-md lg:w-72 overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
+                            <div className="rounded-md lg:w-72 h-[24rem] overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
                               <img
                                 className="w-full lg:w-72 transform transition duration-500 hover:scale-110 h-52 lg:h-44 rounded-md object-cover hover:scroll-py-1"
                                 src={data.images[0]}
@@ -107,7 +109,7 @@ export default function Home() {
                                   {data.address}
                                 </p>
                               </div>
-                              <p className="line-clamp-2 pl-2 text-sm pt-3 text-gray-500">
+                              <p className="line-clamp-2 h-16 pl-2 text-sm pt-3 text-gray-500">
                                 {data.description}
                               </p>
                               <h1 className="line-clamp-1 pl-2 pt-4 text-gray-800 font-bold text-lg">
@@ -146,7 +148,7 @@ export default function Home() {
                       if (data.type == "rent") {
                         return (
                           <Link to={`/display-listing/${data._id}`}>
-                            <div className="rounded-md lg:w-72 overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
+                            <div className="rounded-md lg:w-72 h-[24rem] overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
                               <img
                                 className="w-full lg:w-72 transform transition duration-500 hover:scale-110 h-52 lg:h-44 rounded-md object-cover hover:scroll-py-1"
                                 src={data.images[0]}
@@ -165,7 +167,7 @@ export default function Home() {
                                   {data.address}
                                 </p>
                               </div>
-                              <p className="line-clamp-2 pl-2 text-sm pt-3 text-gray-500">
+                              <p className="line-clamp-2 pl-2 h-16 text-sm pt-3 text-gray-500">
                                 {data.description}
                               </p>
                               <h1 className="line-clamp-1 pl-2 pt-4 text-gray-800 font-bold text-lg">
@@ -204,7 +206,7 @@ export default function Home() {
                       if (data.type == "sell") {
                         return (
                           <Link to={`/display-listing/${data._id}`}>
-                            <div className="rounded-md lg:w-72 overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
+                            <div className="rounded-md h-[24rem] lg:w-72 overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
                               <img
                                 className="w-full lg:w-72 transform transition duration-500 hover:scale-110 h-52 lg:h-44 rounded-md object-cover hover:scroll-py-1"
                                 src={data.images[0]}
@@ -223,7 +225,7 @@ export default function Home() {
                                   {data.address}
                                 </p>
                               </div>
-                              <p className="line-clamp-2 pl-2 text-sm pt-3 text-gray-500">
+                              <p className="line-clamp-2 h-16 pl-2 text-sm pt-3 text-gray-500">
                                 {data.description}
                               </p>
                               <h1 className="line-clamp-1 pl-2 pt-4 text-gray-800 font-bold text-lg">
@@ -245,6 +247,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+      ) : (
+        <h1 className="pt-20 text-4xl font-bold text-center">
+          NO LSITING FOUND..
+        </h1>
       )}
     </div>
   );
