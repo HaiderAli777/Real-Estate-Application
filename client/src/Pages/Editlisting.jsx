@@ -354,6 +354,7 @@ export default function Editlisting() {
                   console.log(filename);
                   setLoadImage(false);
                 } else {
+                  setLoadImage(false);
                   seterr({ ...formerr, imagelimit: "Only 6 Images Allowed!!" });
                   console.log("conceeded limit");
                 }

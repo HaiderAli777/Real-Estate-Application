@@ -114,7 +114,7 @@ export default function Home() {
           Haider Ali specializes in helping buyers and sellers navigate the real
           estate market according to their specific desires and requirements.
         </p>
-        {data.userdata && (
+        {Object.keys(data).length == 0 && (
           <Link to="/sign-up">
             <p className="text-blue-800 font-bold">
               Sign-in to start your journey
