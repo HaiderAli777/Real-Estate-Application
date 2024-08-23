@@ -2,7 +2,7 @@ import React from "react";
 
 export default function About() {
   return (
-    <div className="flex flex-col mx-40 my-16">
+    <div className="flex flex-col mx-2 md:mx-40 my-16">
       <h1 className="text-4xl font-bold mb-5">I am Haider Ali</h1>
       <p className="text-gray-600 font-semibold">
         Haider Ali is a dedicated full-stack web developer with a passion for

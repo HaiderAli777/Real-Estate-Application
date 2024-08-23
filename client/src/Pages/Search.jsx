@@ -146,7 +146,7 @@ export default function Search() {
           </div>
           <div>
             <input
-              checked={formdata.type == "sale"}
+              checked={formdata.type == "sell"}
               id="sell"
               onChange={sumbithandler}
               type="checkbox"
@@ -222,7 +222,7 @@ export default function Search() {
                               {data.address}
                             </p>
                           </div>
-                          <p className="line-clamp-2 h-16 pl-2 text-sm pt-3 text-gray-500">
+                          <p className="line-clamp-2 sm:h-16 pl-2 text-sm pt-3 text-gray-500">
                             {data.description}
                           </p>
                           <h1 className="line-clamp-1 pl-2 pt-4 text-gray-800 font-bold text-lg">

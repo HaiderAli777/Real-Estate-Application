@@ -16,7 +16,7 @@ export default function Header() {
     <header className=" bg-slate-300 shadow-lg">
       <div className="flex-wrap  items-center text-center sm:flex mx-7 py-4 justify-between">
         <Link to="home">
-          <h1 className="mt-1 mb-1">
+          <h1 className="mt-1 hidden sm:block mb-1">
             <span className="text-slate-700 text-sm sm:text-xl font-bold">
               Hadi
             </span>
@@ -26,7 +26,7 @@ export default function Header() {
           </h1>
         </Link>
 
-        <ul className="flex gap-5 items-center">
+        <ul className="flex gap-5 items-center ">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -38,18 +38,18 @@ export default function Header() {
           </button>
 
           <Link to="home">
-            <li className="hidden sm:inline-block text-base text-black font-bold ">
+            <li className=" sm:inline-block text-base text-black font-bold ">
               Home
             </li>
           </Link>
           <Link to="about">
-            <li className="hidden sm:inline-block text-base text-black font-bold">
+            <li className=" sm:inline-block text-base text-black font-bold">
               About
             </li>
           </Link>
           {key.length == 0 && (
             <Link to="sign-in">
-              <li className="hidden sm:inline-block text-base text-black font-bold ">
+              <li className=" sm:inline-block text-base text-black font-bold ">
                 SignIn
               </li>
             </Link>
@@ -64,7 +64,7 @@ export default function Header() {
 
           {key.length > 0 && (
             <Link to="listing">
-              <li className=" hidden sm:inline-block text-base text-black font-bold ">
+              <li className="  sm:inline-block text-base text-black font-bold ">
                 Listing
               </li>
             </Link>

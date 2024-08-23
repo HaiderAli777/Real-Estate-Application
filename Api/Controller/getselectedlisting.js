@@ -1,8 +1,9 @@
 const Listing = require("../Models/Listing.model");
 
 const getselectedlisting = async (req, res, next) => {
-  const { type, sort, furnished, parking, name, limit, page } = req.query;
-  console.log(type, sort, furnished, parking, name, limit, page);
+  const { type, sort, furnished, parkingssport, name, limit, page, offer } =
+    req.query;
+  console.log(type, sort, furnished, parkingssport, name, limit, page, offer);
   try {
     // Build the query object
     let query = {};
@@ -14,12 +15,15 @@ const getselectedlisting = async (req, res, next) => {
     if (furnished) {
       query.furnished = "true";
     }
-    if (parking) {
-      query.parking = "true";
+    if (parkingssport) {
+      query.parkingssport = "true";
     }
     if (name) {
       // Assuming name is a partial match
       query.name = { $regex: name, $options: "i" };
+    }
+    if (offer) {
+      query.offer = offer;
     }
     console.log(query);
     // Fetch the listings from the database
@@ -32,10 +36,11 @@ const getselectedlisting = async (req, res, next) => {
         listingsQuery = listingsQuery.sort({ createdAt: 1 });
       }
     }
-
-    if (limit) {
+    const pag = page || 1;
+    const lim = limit || 6;
+    if (lim) {
       console.log("limit");
-      listingsQuery.limit(limit).skip((page - 1) * 6);
+      listingsQuery.limit(limit).skip((pag - 1) * lim);
     }
 
     const listings = await listingsQuery.exec();
