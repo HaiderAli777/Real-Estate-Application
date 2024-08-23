@@ -170,7 +170,6 @@ export default function DisplayListing() {
                   <button
                     disabled={body.length <= 0}
                     onClick={() => {
-                      setbody("");
                       setTimeout(() => {
                         setpop(false);
                       }, 2000);
