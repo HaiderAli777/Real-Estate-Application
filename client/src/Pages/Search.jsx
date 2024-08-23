@@ -42,7 +42,7 @@ export default function Search() {
     setlenlimit(0);
     console.log(window.location.href);
 
-    console.log("he");
+    console.log("he in use effe");
     const param = new URLSearchParams();
     {
       formdata.name !== "" && param.append("name", formdata.name);
@@ -59,7 +59,8 @@ export default function Search() {
     if (formdata.parking) {
       param.append("parkingssport", formdata.parking);
     }
-    if (formdata.page > 0) {
+    if (page > 0) {
+      console.log("page");
       param.append("page", 1);
     }
     url.search = param.toString();
@@ -202,7 +203,7 @@ export default function Search() {
                 <div className="flex flex-col lg:flex-row lg:flex-wrap gap-6">
                   {listing.map((data) => {
                     return (
-                      <Link to={`/display-listing/${data._id}`}>
+                      <Link key={data._id} to={`/display-listing/${data._id}`}>
                         <div className="rounded-md lg:w-[16.5rem] h-[24rem] overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
                           <img
                             className="w-full lg:w-72 transform transition duration-500 hover:scale-110 h-52 lg:h-44 rounded-md object-cover hover:scroll-py-1"
@@ -239,10 +240,15 @@ export default function Search() {
                   })}
                 </div>
               </div>
+            ) : loder ? (
+              <div className="flex justify-center">
+                <img
+                  className="w-20 mt-10 text-center"
+                  src="https://ima.alfatango.org/images/loader.gif"
+                ></img>
+              </div>
             ) : (
-              <h1 className="text-center pt-20 font-bold text-4xl">
-                NO LISTING FOUND
-              </h1>
+              <h1 className="pt-10 font-bold text-4xl">No Listing Found</h1>
             )}
             {listing.length > 0 && lenlimit > page * 6 && (
               <button
@@ -252,10 +258,14 @@ export default function Search() {
                   const url = new URL(window.location.href);
                   const param = new URLSearchParams(url.search);
 
-                  param.append("page", page);
+                  param.set("page", page);
                   console.log(param.toString(), "but in click");
+                  window.history.pushState(
+                    {},
+                    "",
+                    `${url.pathname}?${param.toString()}`
+                  );
                   const getalllisting = async () => {
-                    setloder(true);
                     try {
                       const res = await fetch(
                         `/api/getselectedlisting?${param.toString()}`,
@@ -274,9 +284,7 @@ export default function Search() {
                       setlisting([...listing, ...data1.data]);
                       console.log(data1.data);
                       setlenlimit(data1.length);
-                      setloder(false);
                     } catch (err) {
-                      setloder(false);
                       console.log(err);
                     }
                   };

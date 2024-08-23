@@ -196,7 +196,12 @@ export default function DisplayListing() {
           </div>
         </div>
       ) : (
-        <h1>Loading</h1>
+        <div className="flex justify-center">
+          <img
+            className="w-20 mt-10 text-center"
+            src="https://ima.alfatango.org/images/loader.gif"
+          ></img>
+        </div>
       )}
     </div>
   );

@@ -9,7 +9,7 @@ import "swiper/css";
 import "./style.css";
 export default function Home() {
   const data = useSelector((state) => state.user.userdata);
-  const [loder, setloder] = useState(false);
+  const [loder, setloder] = useState(null);
   const [offerlisting, setofferlisting] = useState([]);
   const [rentlisting, setrentlisting] = useState([]);
   const [selllisting, setselllisting] = useState([]);
@@ -34,8 +34,6 @@ export default function Home() {
         setofferlisting([...data1.data]);
         fetchRentListing();
         console.log(data1.data);
-
-        setloder(false);
       } catch (err) {
         setloder(false);
         console.log(err);
@@ -46,7 +44,6 @@ export default function Home() {
 
   const fetchRentListing = async () => {
     const getalllisting = async () => {
-      setloder(true);
       try {
         const res = await fetch(
           `/api/getselectedlisting?type=rent&page=1&limit=4`,
@@ -65,8 +62,6 @@ export default function Home() {
         setrentlisting([...data1.data]);
         console.log(data1.data);
         fetchSellListing();
-
-        setloder(false);
       } catch (err) {
         setloder(false);
         console.log(err);
@@ -76,7 +71,6 @@ export default function Home() {
   };
   const fetchSellListing = async () => {
     const getalllisting = async () => {
-      setloder(true);
       try {
         const res = await fetch(
           `/api/getselectedlisting?type=sell&page=1&limit=4`,
@@ -122,7 +116,9 @@ export default function Home() {
           </Link>
         )}
       </div>
-      {!loder ? (
+      {offerlisting.length > 0 &&
+      rentlisting.length > 0 &&
+      selllisting.length > 0 ? (
         <div className="mt-20">
           <div>
             <Swiper
@@ -146,7 +142,7 @@ export default function Home() {
               <h1 className="py-3 text-2xl font-bold text-gray-700">
                 Recent Offers
               </h1>
-              {!loder && offerlisting.length > 0 ? (
+              {
                 <div>
                   <Link to="/search/?">
                     <h1 className="pb-2 text-blue-600 font-bold">
@@ -157,7 +153,10 @@ export default function Home() {
                     {offerlisting.map((data) => {
                       if (data.offer == true) {
                         return (
-                          <Link to={`/display-listing/${data._id}`}>
+                          <Link
+                            key={data.key}
+                            to={`/display-listing/${data._id}`}
+                          >
                             <div className="rounded-md lg:w-72 h-[24rem] overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
                               <img
                                 className="w-full lg:w-72 transform transition duration-500 hover:scale-110 h-52 lg:h-44 rounded-md object-cover hover:scroll-py-1"
@@ -195,11 +194,7 @@ export default function Home() {
                     })}
                   </div>
                 </div>
-              ) : (
-                <h1 className="text-center font-bold text-3xl ">
-                  No Offer Available
-                </h1>
-              )}
+              }
             </div>
           </div>
           <div>
@@ -207,7 +202,7 @@ export default function Home() {
               <h1 className="py-3 text-2xl font-bold text-gray-700">
                 Recent Places for Rent
               </h1>
-              {!loder && offerlisting.length > 0 ? (
+              {
                 <div>
                   <Link to="/search">
                     <h1 className="pb-2 text-blue-600 font-bold">
@@ -218,7 +213,10 @@ export default function Home() {
                   <div className="flex flex-col lg:flex-row gap-6 ">
                     {rentlisting.map((data) => {
                       return (
-                        <Link to={`/display-listing/${data._id}`}>
+                        <Link
+                          key={data._id}
+                          to={`/display-listing/${data._id}`}
+                        >
                           <div className="rounded-md lg:w-72 h-[24rem] overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
                             <img
                               className="w-full lg:w-72 transform transition duration-500 hover:scale-110 h-52 lg:h-44 rounded-md object-cover hover:scroll-py-1"
@@ -255,11 +253,7 @@ export default function Home() {
                     })}
                   </div>
                 </div>
-              ) : (
-                <h1 className="text-center font-bold text-3xl ">
-                  No Department For Rent Available
-                </h1>
-              )}
+              }
             </div>
           </div>
           <div>
@@ -267,7 +261,7 @@ export default function Home() {
               <h1 className="py-3 text-2xl font-bold text-gray-700">
                 Recent Places for Sell
               </h1>
-              {!loder && offerlisting.length > 0 ? (
+              {
                 <div>
                   <Link to="/search">
                     <h1 className="pb-2 text-blue-600 font-bold">
@@ -278,55 +272,58 @@ export default function Home() {
                   <div className=" flex flex-col lg:flex-row  gap-6">
                     {selllisting.map((data) => {
                       return (
-                        <Link to={`/display-listing/${data._id}`}>
-                          <div className="rounded-md h-[24rem] lg:w-72 overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
-                            <img
-                              className="w-full lg:w-72 transform transition duration-500 hover:scale-110 h-52 lg:h-44 rounded-md object-cover hover:scroll-py-1"
-                              src={data.images[0]}
-                            ></img>
-                            <h1 className="line-clamp-1 font-bold pt-5 pb-2 pl-2 text-2xl text-gray-800">
-                              {data.name}
-                            </h1>
-                            <div className="flex items-center px-2 gap-2">
+                        <div key={data._id}>
+                          <Link to={`/display-listing/${data._id}`}>
+                            <div className="rounded-md h-[24rem] lg:w-72 overflow-hidden flex flex-col bg-white shadow-md hover:shadow-2xl transform transition duration-100 hover:scale-105">
                               <img
-                                width="15"
-                                height="15"
-                                src="https://img.icons8.com/ios-filled/50/address--v1.png"
-                                alt="address--v1"
-                              />
-                              <p className="line-clamp-1 text-sm text-gray-600 ">
-                                {data.address}
+                                className="w-full lg:w-72 transform transition duration-500 hover:scale-110 h-52 lg:h-44 rounded-md object-cover hover:scroll-py-1"
+                                src={data.images[0]}
+                              ></img>
+                              <h1 className="line-clamp-1 font-bold pt-5 pb-2 pl-2 text-2xl text-gray-800">
+                                {data.name}
+                              </h1>
+                              <div className="flex items-center px-2 gap-2">
+                                <img
+                                  width="15"
+                                  height="15"
+                                  src="https://img.icons8.com/ios-filled/50/address--v1.png"
+                                  alt="address--v1"
+                                />
+                                <p className="line-clamp-1 text-sm text-gray-600 ">
+                                  {data.address}
+                                </p>
+                              </div>
+                              <p className="line-clamp-2 h-16 pl-2 text-sm pt-3 text-gray-500">
+                                {data.description}
                               </p>
-                            </div>
-                            <p className="line-clamp-2 h-16 pl-2 text-sm pt-3 text-gray-500">
-                              {data.description}
-                            </p>
-                            <h1 className="line-clamp-1 pl-2 pt-4 text-gray-800 font-bold text-lg">
-                              {data.regularprize}$/Month
-                            </h1>
+                              <h1 className="line-clamp-1 pl-2 pt-4 text-gray-800 font-bold text-lg">
+                                {data.regularprize}$/Month
+                              </h1>
 
-                            <div className="flex gap-3 pl-2 pt-1 pb-2">
-                              <h1 className="font-bold">bed {data.bed}</h1>
-                              <h1 className="font-bold">bath {data.bath}</h1>
+                              <div className="flex gap-3 pl-2 pt-1 pb-2">
+                                <h1 className="font-bold">bed {data.bed}</h1>
+                                <h1 className="font-bold">bath {data.bath}</h1>
+                              </div>
                             </div>
-                          </div>
-                        </Link>
+                          </Link>
+                        </div>
                       );
                     })}
                   </div>
                 </div>
-              ) : (
-                <h1 className="text-center font-bold text-3xl ">
-                  No Department For Sell Available
-                </h1>
-              )}
+              }
             </div>
           </div>
         </div>
+      ) : loder ? (
+        <div className="flex justify-center">
+          <img
+            className="w-20 mt-10 text-center"
+            src="https://ima.alfatango.org/images/loader.gif"
+          ></img>
+        </div>
       ) : (
-        <h1 className="pt-20 text-4xl font-bold text-center">
-          NO LSITING FOUND..
-        </h1>
+        <h1 className="pt-10 font-bold text-4xl">No Listing Found</h1>
       )}
     </div>
   );

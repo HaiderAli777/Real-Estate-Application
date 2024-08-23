@@ -57,7 +57,16 @@ export default function MyListing() {
         )}
         <div className=" mt-4 text-center">
           {listing.length == 0 ? (
-            <h1 className="pt-10 font-bold text-4xl">No Listing Found</h1>
+            loder ? (
+              <div className="flex justify-center">
+                <img
+                  className="w-20 mt-10 text-center"
+                  src="https://ima.alfatango.org/images/loader.gif"
+                ></img>
+              </div>
+            ) : (
+              <h1 className="pt-10 font-bold text-4xl">No Listing Found</h1>
+            )
           ) : (
             <div>
               {listing.map((data) => {

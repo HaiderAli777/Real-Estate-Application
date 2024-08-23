@@ -1,11 +1,14 @@
 const User = require("../Models/User.model");
-
+const Listing = require("../Models/Listing.model");
 const deleteAccount = async (req, res, next) => {
   try {
     const id = req.params.id;
+
     console.log(req.user._id);
     console.log("deleteA", id);
     if ((req.user._id = id)) {
+      const listingofuser = await Listing.deleteMany({ userRef: id });
+
       const data = await User.findByIdAndDelete(id);
       console.log(data);
     }
