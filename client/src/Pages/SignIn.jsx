@@ -94,12 +94,6 @@ export default function SignIn() {
           value={loading ? "Loading..." : "Submit"}
           disabled={loading}
         ></input>
-        <input
-          className="my-1 text-white bg-red-800 shadow-lg p-3 w-[25rem] focus:outline-none rounded-md"
-          type="button"
-          value={"Continue With Google"}
-          onClick={googleHandler}
-        ></input>
         <div>
           <span className="mr-2 font-bold">Do not have any account?</span>
           <Link to="/sign-up">
